@@ -1,11 +1,18 @@
 <?php
+	set_time_limit(9999);
+	error_reporting(0);
+
+	require_once __DIR__ . '/SpreadsheetReader.php';  
+
 	date_default_timezone_set("Europe/Moscow");
 
-	class Controller
+	class ParseController
 	{
 		const header = "external_id,phone,email,gender,birthdate\n";
+		const save_dir = __DIR__."/../../../.SaveParse/";
 
-		private $package_dir = __DIR__."/../parse";
+		private $package_dir = self::save_dir;
+
 		private $arrays = [];
 		private $output = [];
 		private $count = 1;
@@ -43,6 +50,9 @@
 
 		public function makeFile(array $names)
 		{
+			if (!is_dir(self::save_dir))
+				mkdir(self::save_dir);
+
 			if (!is_dir($this->package_dir))
 				mkdir($this->package_dir);
 
@@ -73,11 +83,25 @@
 			return $files;
 		}
 
-		public function parseExcelTarget($reader)
+		public function parseConfig($filename, $basename)
+		{
+			$this->package_dir .= $basename;
+
+			if (file_exists($filename))
+			{
+				$reader = new SpreadsheetReader($filename);
+				$reader->ChangeSheet(0);
+
+				$this->ExcelTarget($reader);
+			}
+			else
+				echo "Файл не существует!";
+		}
+
+		private function ExcelTarget($reader)
 		{
 			$seconds_start = microtime(true);
 			$date_start = date("h:i:s");
-			echo "Начало обработки: $date_start.\n";
 
 			foreach ($reader as $row => $row_values) {
 				if ($row < 2)
@@ -94,7 +118,7 @@
 						else
 							$this->type = "email";
 
-						$this->package_dir .= "-".$this->type."/";
+						$this->package_dir .= "-parse-".$this->type."-".date("d-m-Y h-i-s")."/";
 						
 						$this->arrays = $this->makeFileContent($this->arrays[0], $this->arrays[1]);
 						$this->makeFile($this->arrays);
@@ -108,10 +132,10 @@
 					$this->filesPutContents($this->arrays, $this->output);
 					
 					$time = (microtime(true) - $seconds_start)/60;
-					echo "Прошло: ".(int)$time." минут.\n";
+					// echo "Прошло: ".(int)$time." минут.\n";
 
 					$this->output = [];
-					echo "Обработанно: $row строк.\n";
+					// echo "Обработанно: $row строк.\n";
 				}
 			}
 
@@ -120,7 +144,7 @@
 
 		private function makeEndFile($start, $end)
 		{
-			$filename = __DIR__."/../parse_complete.txt";
+			$filename = __DIR__."/../../../.SaveParse/parse_complete.txt";
 			if (!file_exists($filename))
 				touch($filename);
 

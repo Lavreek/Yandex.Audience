@@ -35,7 +35,7 @@
 				<div class="col-md-auto">
 					<a class="btn btn-secondary" href="/parse/">Обработать файлы</a>
 				</div>
-				<div class="col-md-auto" hidden>
+				<div class="col-md-auto" <?php if (!($_SERVER['SERVER_NAME'] == "localhost")) echo "hidden";  ?>>
 					<a class="btn btn-secondary" href="/get-token/"> Получить токен</a>
 				</div>
 				<div class="col-md-auto">

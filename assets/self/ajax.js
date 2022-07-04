@@ -1,4 +1,4 @@
-let pushurl = document.location.protocol + "//" + document.location.host + "/download/modal/Request.php";
+let pushurl = document.location.protocol + "//" + document.location.host + document.location.pathname + "modal/Request.php";
 
 function successAjax(response)
 {

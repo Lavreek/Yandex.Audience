@@ -1,0 +1,1 @@
+<div class="row w-100 text-center" style="margin-top: 2%;"> <span>Интерфейс для работы с <a class="link-dark" href="https://audience.yandex.ru/" style="text-decoration: none; border-bottom: 1px solid black;">Яндекс.Аудитории</a></span> </div>
