@@ -1,6 +1,8 @@
 <?php
 	require_once __DIR__."/../src/DownloadHelper.php";
 	require_once __DIR__."/modal/Controller.php";
+	
+	$control = new Controller();
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,7 +55,6 @@
 										<div class="col">
 											<div class="сollapse show" id="QueueCollapse">
 												<?php
-													$control = new Controller();
 													$control->showQueue($control::parse['queue'], $control::parse['enemy'], "xlsx", __DIR__."/modal/layouts/folders.php");
 												?>
 											</div>
@@ -72,14 +73,14 @@
 									<div class="col">
 										<div class="сollapse collapse" id="ProcessCollapse">
 											<?php
-												(new Controller())->showDirsFile('process');
+												$control->showDirsFile('process', $control::parse);
 											?>
 										</div>
 									</div>
 								</div>
 								<div class="py-3 w-100 clearfix">
 									<div class="float-start">
-										<h4>Загруженные файлы</h4>
+										<h4>Завершённые файлы</h4>
 									</div>
 									<div class="float-end">
 										<button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#CompleteCollapse" aria-expanded="false" aria-controls="CompleteCollapse">Свернуть/Развернуть</button>
@@ -89,7 +90,7 @@
 									<div class="col">
 										<div class="сollapse collapse" id="CompleteCollapse">
 											<?php
-												(new Controller())->showDirsFile('complete');
+												$control->showDirsFile('complete', $control::parse);
 											?>
 										</div>
 									</div>
@@ -106,7 +107,7 @@
 									<div class="col">
 										<div class="сollapse collapse" id="EnemyCollapse">
 											<?php
-												(new Controller())->showDirsFile('enemy');
+												$control->showDirsFile('enemy', $control::parse);
 											?>
 										</div>
 									</div>
@@ -118,9 +119,6 @@
 				</div>
 			</div>
 		</div>
-	
-
-		
 
 		<?php include __DIR__."/../assets/layouts/blockjs.php" ?>
 	</body>

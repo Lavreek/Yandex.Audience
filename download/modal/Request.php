@@ -8,9 +8,8 @@
 	{
 		echo $control->downloadFiles($_FILES['file'], $control::download['queue']);
 	}
-
 	if (isset($_POST['file']))
 	{
 		$control->execPushController($_POST['file']);
-		echo $control->moveToComplete($_POST['file']);
+		echo $control->moveToComplete($_POST['file'], "csv", $control::download['queue'], $control::download['complete']);
 	}

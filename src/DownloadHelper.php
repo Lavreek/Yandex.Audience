@@ -56,6 +56,27 @@
 	        	echo "<h5 class='lead'>В очереди пусто.</h5>";
 		}
 
+		public function showDirsFile($const_dirs, $tag)
+		{
+			if ($const_dirs[$tag] !== null)
+				$this->showFiles($const_dirs[$tag]);
+		}
+
+		private function showFiles($path)
+		{
+			$path = array_diff(scandir($path), [".", ".."]);
+
+			if (count($path) > 0)
+        	{
+	        	foreach ($path as $value)
+	        	{
+    				include __DIR__."/../assets/layouts/files.php";
+	        	}
+	        }
+	        else
+	        	echo "<h5 class='lead'>В папке отсутствуют файлы.</h5>";
+		}
+
 		protected function checkControlDirs($dirs)
 		{
 			$this->makeResourcePackage();
@@ -65,6 +86,15 @@
 				if (!is_dir($dir))
 					mkdir($dir);
 			}
+		}
+
+		protected function moveToComplete($filename, $extens, $path_from, $path_to)
+		{
+			rename($path_from.$filename.".".$extens, $path_to.mb_convert_encoding($filename, 'windows-1251', 'utf-8').".".$extens);
+			
+			$replace = str_replace([',', " ", "(", ")"], "", $filename);
+
+			return json_encode(['file' => $replace, 'original_filename' => $filename.".".$extens, 'message' => 'Загрузка завершена!']);
 		}
 
 		private function makeResourcePackage()

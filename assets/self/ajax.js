@@ -24,8 +24,7 @@ function sendAjaxForm(url, data)
 }
 
 $('.btn-push').on('click', function() {
-
-	//var data = $("#PushFiles").serialize();
+	$('.btn-push').attr('disabled', true);
 
 	var formData = new FormData();
 
@@ -34,10 +33,11 @@ $('.btn-push').on('click', function() {
 		if (key < 20)
 		{
 			formData.append('file[]', input);
-			// console.log(formData.getAll('file[]'))
 		}
 		else
+		{
 			return true;
+		}
 	});
 
 	sendAjaxForm(pushurl, formData);	

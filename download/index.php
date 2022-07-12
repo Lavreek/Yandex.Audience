@@ -1,6 +1,8 @@
 <?php
 	require_once __DIR__."/../src/DownloadHelper.php";
 	require_once __DIR__."/modal/Controller.php";
+
+	$control = new Controller();
 ?>
 <!DOCTYPE html>
 <html>
@@ -52,7 +54,6 @@
 										<div class="col">
 											<div class="сollapse show" id="QueueCollapse">
 												<?php
-													$control = new Controller();
 													$control->showQueue($control::download['queue'], $control::download['enemy'], "csv", __DIR__."/modal/layouts/folders.php");
 												?>
 											</div>
