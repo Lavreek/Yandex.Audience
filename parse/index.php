@@ -1,5 +1,4 @@
 <?php
-	require_once __DIR__."/../src/DownloadHelper.php";
 	require_once __DIR__."/modal/Controller.php";
 	
 	$control = new Controller();
@@ -7,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php include __DIR__."/../assets/layouts/head.php" ?>
+		<?php include __DIR__."/../assets/layouts/head.php"; ?>
 		
 		<title>Обработка xlsx</title>
 	</head>
@@ -119,7 +118,7 @@
 				</div>
 			</div>
 		</div>
-
-		<?php include __DIR__."/../assets/layouts/blockjs.php" ?>
+1
+		<?php include __DIR__."/../assets/layouts/blockjs.php"; ?>
 	</body>
 </html>

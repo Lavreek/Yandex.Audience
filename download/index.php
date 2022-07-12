@@ -1,5 +1,4 @@
 <?php
-	require_once __DIR__."/../src/DownloadHelper.php";
 	require_once __DIR__."/modal/Controller.php";
 
 	$control = new Controller();
@@ -100,8 +99,7 @@
 					</div>
 				</div>
 			</div>
-		<div id="messages"></div>
-		<?php include __DIR__."/../assets/layouts/blockjs.php" ?>
+		<?php include __DIR__."/../assets/layouts/blockjs.php"; ?>
 
 	</body>
 </html>
