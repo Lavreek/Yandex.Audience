@@ -118,7 +118,7 @@
 				</div>
 			</div>
 		</div>
-1
+
 		<?php include __DIR__."/../assets/layouts/blockjs.php"; ?>
 	</body>
 </html>

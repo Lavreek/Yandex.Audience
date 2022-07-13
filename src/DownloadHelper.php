@@ -21,8 +21,16 @@
 			$errors = $files['error'];
 			$sizes = $files['size'];
 
-			for ($i = 0; $i < count($names); $i ++) { 
-				copy($tmp_names[$i], $path.$names[$i]);
+			for ($i = 0; $i < count($names); $i++)
+			{
+				if ($_SERVER['SERVER_NAME'] == "audition.loc1") 
+				{
+					copy($tmp_names[$i], $path.mb_convert_encoding($names[$i], "windows-1251", "utf-8"));
+				}
+				else
+				{
+					copy($tmp_names[$i], $path.$names[$i]);
+				}
 			}
 
 			return json_encode('Загрузка завершена!');
@@ -36,6 +44,12 @@
         	{
 	        	foreach ($query as $value)
 	        	{
+
+	        		if ($_SERVER['SERVER_NAME'] == "audition.loc1")
+	        		{
+	        			$value = mb_convert_encoding($value, "utf-8", "windows-1251");
+	        		}
+
 	        		$exp = explode(".", $value);
 
 	        		if (count($exp) == 2)
@@ -56,7 +70,7 @@
 	        	echo "<h5 class='lead'>В очереди пусто.</h5>";
 		}
 
-		public function showDirsFile($const_dirs, $tag)
+		public function showDirsFile($tag, $const_dirs)
 		{
 			if ($const_dirs[$tag] !== null)
 				$this->showFiles($const_dirs[$tag]);
@@ -88,9 +102,9 @@
 			}
 		}
 
-		protected function moveToComplete($filename, $extens, $path_from, $path_to)
+		public function moveToComplete($filename, $extens, $path_from, $path_to)
 		{
-			rename($path_from.$filename.".".$extens, $path_to.mb_convert_encoding($filename, 'windows-1251', 'utf-8').".".$extens);
+			rename($path_from.$filename.".".$extens, $path_to.$filename.".".$extens);
 			
 			$replace = str_replace([',', " ", "(", ")"], "", $filename);
 

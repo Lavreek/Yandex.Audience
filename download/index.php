@@ -70,7 +70,7 @@
 										<div class="col">
 											<div class="сollapse collapse" id="CompleteCollapse">
 												<?php
-													(new Controller())->showDirsFile('complete');
+													$control->showDirsFile('complete', $control::download);
 												?>
 											</div>
 										</div>
@@ -87,7 +87,7 @@
 										<div class="col">
 											<div class="сollapse collapse" id="EnemyCollapse">
 												<?php
-													(new Controller())->showDirsFile('enemy');
+													$control->showDirsFile('enemy', $control::download);
 												?>
 											</div>
 										</div>
