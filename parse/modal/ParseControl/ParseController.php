@@ -83,6 +83,26 @@
 			return $files;
 		}
 
+		public function makeConsoleArrayFiles(array $header_row, array $meta_row)
+		{
+			$files = [];
+
+			foreach ($header_row as $key => $value)
+			{
+				if ($key > 0)
+				{
+					if ($value != "")
+						array_push($files, ['id' => $key, 'name' => $header_row[0].mb_convert_encoding($value, 'windows-1251', 'utf-8')."-".mb_convert_encoding($meta_row[$key], 'windows-1251', 'utf-8')."-".date("d-m-Y")."-".$this->type.".csv", 'count' => 1]);
+					else
+						array_push($files, ['id' => $key, 'name' => mb_convert_encoding($meta_row[$key], 'windows-1251', 'utf-8')."-unique-".date("d-m-Y")."-".$this->type.".csv", 'count' => 1]);
+				}
+				else
+					array_push($files, ['id' => $key, 'name' => "none" , 'count' => 0]);
+			}
+
+			return $files;
+		}
+
 		public function parseConfig($filename, $basename)
 		{
 			$this->package_dir .= $basename;
@@ -96,6 +116,43 @@
 			}
 			else
 				echo "Файл не существует!";
+		}
+
+		public function parseConsoleExcelTarget($reader)
+		{
+			$header_rows = [];
+			$meta_rows = [];
+			$files = [];
+			foreach ($reader as $row => $row_values) {
+				if ($row == 0) {
+					$header_rows += $row_values;
+				} elseif ($row == 1) {
+					$meta_rows += $row_values;
+				} elseif ($row > 0) {
+					if ($row_values[0] != "") {
+						foreach ($row_values as $row_index => $row_value) {
+							if ($row_index > 2) {
+								if ($row_value > 0) {
+									if ($header_rows[$row_index] == "") {
+										$name = $meta_rows[$row_index];
+									} else {
+										$name = $header_rows[$row_index];
+									}
+									$file = __DIR__."/../custom/{$row_values[0]}-$name.csv";
+									$files += [__DIR__."/../custom/{$row_values[0]}-$name.csv" => 0];
+									
+									if (!file_exists($file)) {
+										file_put_contents($file, self::header, FILE_APPEND);
+									}
+									$files[$file]++;
+									file_put_contents($file, "{$files[$file]},{$row_values[2]},,,\n", FILE_APPEND);	
+								}
+							}
+						}
+					}
+				}			
+			}
+
 		}
 
 		private function ExcelTarget($reader)
